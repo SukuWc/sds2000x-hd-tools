@@ -44,7 +44,7 @@ def main_desc_analog(recv):
     tdiv = tdiv_enum[tdiv_index]
     return vdiv, offset, interval, delay, tdiv, code, adc_bit
 
-def main_wf_data(sds, channel):
+def main_read_analog(sds, channel):
     sds.timeout = 30000 # default value is 2000(2s)
     sds.chunk_size = 20 * 1024 * 1024 # default value is 20*1024(20k bytes)
     sds.write(":WAVeform:STARt 0")
@@ -131,7 +131,7 @@ def main_desc(recv):
     return interval,delay,tdiv
 
 
-def main_new_scpi(sds, channel):
+def main_read_digital(sds, channel):
 
     sds.write(f"WAV:SOUR {channel}")
     #sds.write("WAV:SOUR D1")
@@ -169,9 +169,9 @@ if __name__=='__main__':
         
     _rm = visa.ResourceManager()
     sds = _rm.open_resource("TCPIP0::192.168.1.8::inst0::INSTR")
-    main_new_scpi(sds, "D0")
-    main_new_scpi(sds, "D1")
-    main_wf_data(sds, CHANNEL)
+    #main_read_digital(sds, "D0")
+    #main_read_digital(sds, "D1")
+    main_read_analog(sds, CHANNEL)
 
 
     pl.show()
